@@ -132,14 +132,15 @@ class ImageTasks:
 
     # task 18
     def binarize_image(self):
-        _, res = cv.threshold(self.img, 127, 255, 0)
+        _, res = cv.threshold(cv.cvtColor(self.img, cv.COLOR_BGR2GRAY), 128, 255, cv.THRESH_BINARY)
         plt.imshow(cv.cvtColor(res, flag))
 
     # task 19
     def found_contours(self):
-        _, img_bin = cv.threshold(cv.cvtColor(self.img, cv.COLOR_BGR2GRAY), 127, 255, 0)
+        _, img_bin = cv.threshold(cv.cvtColor(self.img, cv.COLOR_BGR2GRAY), 128, 255, cv.THRESH_BINARY)
         contours, hierarchy = cv.findContours(img_bin.copy(), cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
-        res = cv.drawContours(self.img, contours, -1, (0, 0, 255), 2, cv.LINE_AA, hierarchy, 1)
+        gray_img = cv.cvtColor(self.img, cv.COLOR_BGR2GRAY)
+        res = cv.drawContours(gray_img, contours, -1, (0, 0, 128), 2, cv.LINE_AA, hierarchy, 1)
         plt.imshow(cv.cvtColor(res, flag))
         self.reread()
 
